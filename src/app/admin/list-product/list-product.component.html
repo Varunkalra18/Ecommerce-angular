@@ -1,0 +1,55 @@
+
+<div class="alert alert-danger text-center">
+  <div class="col">
+    <strong>Admin Pannel</strong>
+  </div>
+
+   
+</div>
+
+<div class="mt-2">
+    <div class="row">
+        <div class="col">
+            
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Search Product" [(ngModel)] ="search">
+                <div class="input-group-append">
+                    <button (click)="filterProduct()" class="btn btn-outline-secondary" type="button">Search</button>
+                    <button (click)="clear()" class="btn btn-outline-secondary" type="button">Clear</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col">
+  <button (click)="getToList()" class="btn btn-outline-secondary" type="button">Go to product list</button>
+</div>
+
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Product Name</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Manage Quantity</th>
+        <th scope="col">Image</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody *ngFor="let item of filteredProductList">
+      <tr>
+        <th scope="row">{{item.id}}</th>
+        <td>{{item.name}}</td>
+        <td>{{item.quantity}}</td>
+        <td>
+            <button type="button" (click)="incQuantity(item)" class="btn btn-primary">+</button>
+            <button type="button" (click)="decQuantity(item)" class="btn btn-danger">-</button>
+        </td>
+        <td><img class="img-fluid" src="{{item.image}}"></td>
+        <td><button class="btn btn-danger" (click)="deleteProduct(item)">Delete Product</button></td>
+      </tr>
+      
+    </tbody>
+  </table>
+
+        

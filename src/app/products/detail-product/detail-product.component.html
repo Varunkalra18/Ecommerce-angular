@@ -1,0 +1,39 @@
+<div class="mt-5">
+    <div class="row">
+        <div class="col">
+            <h3>{{productDescription.name}}</h3>
+        </div>  
+            <div class="col">
+                <button class=" float-end btn btn-success" (click)="goBack()">
+                    Back
+                </button>    
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col ">
+                    <img class="card-img-top" src="{{productDescription.image}}" alt="">
+                </div>
+                <div class="col">
+                    <div class="row">
+                        <div class="col">
+                            <strong>Description:</strong>
+                        <p>
+                            {{productDescription.description}}
+                        </p>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="d-grid gap-2 mt-5">
+                            <button class="btn btn-danger">
+                                Add to cart
+                            </button>
+                            <button class="btn btn-primary">
+                                Buy Now
+                            </button>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>
