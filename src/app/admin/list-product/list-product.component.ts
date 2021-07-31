@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router' ;
+import { Observable } from 'rxjs';
 import { ProductsService } from 'src/app/products/services/products.service';
 
 @Component({
@@ -14,8 +15,17 @@ export class ListProductComponent implements OnInit {
   search: string = "" ;
   filteredProductList = null;
   ngOnInit(): void {
-    this.productList = this.service.getProductList() ;
-    this.filteredProductList = this.productList ;
+    this.service.getProductList().subscribe(
+      (data) => {
+        console.log('deleted Successfully')
+        this.productList = data ;
+        this.filteredProductList = data ;
+       },
+      (error) => {
+        console.log("er") ;
+        console.log(error);
+      }
+    ) ;
   }
   getToList():void{
     this.router.navigate(['']) ;
@@ -27,12 +37,38 @@ export class ListProductComponent implements OnInit {
     this.filteredProductList = this.productList;
   }
   deleteProduct(item:any){
-    this.service.deleteItems(item.id) ;
+    this.service.deleteItems(item.id).subscribe(
+      (data) => {
+        this.productList = data ;
+        this.filteredProductList = data ;
+      },
+      (error) => {
+
+      }
+    ) ;
   } 
   incQuantity(item:any){
-    this.service.incProductQuant(item.id) ;
-  } 
+    this.service.incProductQuant(item.id).subscribe(
+      (data) => {
+        console.log('succtess');
+        this.productList = data ;
+        this.filteredProductList = data ; 
+      },
+      (error) => {
+
+      }
+    ) ;
+  }
   decQuantity(item:any){
-    this.service.decProductQuant(item.id);
+    this.service.decProductQuant(item.id).subscribe(
+      (data) => {
+        console.log('succtess full');
+        this.productList = data ;
+        this.filteredProductList = data ; 
+      },
+      (error) => {
+
+      }
+    ) ;
   } 
 }

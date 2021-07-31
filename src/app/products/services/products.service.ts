@@ -1,11 +1,20 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductsService {
 
-  constructor() { }
+  constructor(private http : HttpClient) { }
+  private url = environment.apiUrl ;
+  private extractData(res: Response) : Response | null{
+    const body = res ;
+    return body || null ;
+  }
   private productList = [
     {
       id:1,
@@ -24,26 +33,44 @@ export class ProductsService {
       stars:"40"
     }
   ] 
-  getProductList():any{
-    return this.productList;
+  getProductList():Observable<any>{
+    return this.http
+    .get(this.url + '/getProductList')
+    .pipe(map(this.extractData))
+    .pipe(catchError(this.handleError));
   }
-  getProductD(id:number):any {
-    return this.productList.find(element => element.id == id) ;
+
+  getProductD(id:number):Observable<any>{
+    return this.http
+    .get(this.url + '/getProductDetails/' +id)
+    .pipe(map(this.extractData))
+    .pipe(catchError(this.handleError));
   }
-deleteItems(id:number){
-  const index = this.productList.findIndex(element => element.id === id) ;
-  this.productList.splice(index,1) ;
+  deleteItems(id:number):Observable<any>{
+    return this.http
+    .get(this.url + '/deleteProduct/' +id)
+    .pipe(map(this.extractData))
+    .pipe(catchError(this.handleError));
+  }
+
+incProductQuant(id:number):Observable<any>{
+  return this.http
+  .get(this.url + '/increaseProductQuant/' +id)
+  .pipe(map(this.extractData))
+  .pipe(catchError(this.handleError));
 }
-incProductQuant(id:number){
-  const index = this.productList.findIndex(element => element.id === id) ;
-  this.productList[index].quantity += 1 ;
-}
-decProductQuant(id:number){
-  const index = this.productList.findIndex(element => element.id === id) ;
-  this.productList[index].quantity -= 1 ;
+decProductQuant(id:number):Observable<any>{
+  return this.http
+  .get(this.url + '/decreaseProductQuant/' +id)
+  .pipe(map(this.extractData))
+  .pipe(catchError(this.handleError));
 }
 addProduct(product){
   product.id = this.productList.length + 1 ;
   this.productList.push(product);
 }
+handleError(error): Observable<never>{
+  return throwError(error);
+};
+
 }

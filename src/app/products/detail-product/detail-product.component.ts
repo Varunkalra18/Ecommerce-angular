@@ -19,9 +19,19 @@ export class DetailProductComponent implements OnInit {
   }
 
   getProductDescription(id:number){
-    this.productDescription = this.service.getProductD(this.id) ;
-    console.log(this.productDescription);
+    // this.productDescription = this.service.getProductD(this.id) ;
+    this.service.getProductD(id).subscribe(
+    (data) => {
+      
+      this.productDescription = data ;
+    },
+    (error) => {
+
+    }
+    ); 
+    
   }
+  
   goBack(){
     this.route.navigate([''])
   }

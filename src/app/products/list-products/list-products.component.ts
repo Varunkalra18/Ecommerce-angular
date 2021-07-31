@@ -15,7 +15,16 @@ export class ListProductsComponent implements OnInit {
   search: string = "" ;
   filteredProductList = null;
   ngOnInit(): void {
-    this.productList = this.service.getProductList() ;
+    this.service.getProductList().subscribe(
+      (data) => {
+        this.productList = data ;
+        this.filteredProductList = data ;
+       },
+      (error) => {
+        console.log("er") ;
+        console.log(error);
+      }
+    ) ;
     this.filteredProductList = this.productList ;
   }
   getToDetails(id:number):void{
